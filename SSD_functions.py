@@ -29,11 +29,9 @@ def GoRandom(x,y,step):
     return new_x, new_y
 
 def CheckClashing(molecule1, molecule2):  #Input should be molecule(x,y,radius)
-    distance_between_center = ((molecule1[0]-molecule2[0])**2 + (molecule1[1]-molecule2[1])**2)**(0.5)
-
+    distance_between_center = ((molecule1[0]-molecule2[0])**2.0 + (molecule1[1]-molecule2[1])**2.0)**(0.5)
     if distance_between_center < (molecule1[2]+molecule2[2]):
         clashing = 1
     if distance_between_center >= (molecule1[2]+molecule2[2]):
         clashing = 0
-
     return clashing

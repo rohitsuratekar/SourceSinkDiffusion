@@ -17,18 +17,29 @@ molecules =[] #make empty list
 
 #Initialize starting points of molecules
 for m in range(ss.number_of_substarte_molecules):
-    molecules.append((random.uniform(ss.grid_width[0],ss.grid_width[1]), random.uniform(ss.grid_hight[0],ss.grid_hight[1]), ss.molecule_radius, RGB[m]))
+    temp_coord = [random.uniform(ss.grid_width[0],ss.grid_width[1]), random.uniform(ss.grid_hight[0],ss.grid_hight[1])]
+    for item in molecules:
+        isClashing = sfuc.CheckClashing( (temp_coord[0],temp_coord[1],ss.molecule_radius), (item[0],item[1],item[2]) )
+        while isClashing == 1:
+            temp_coord = [random.uniform(ss.grid_width[0],ss.grid_width[1]), random.uniform(ss.grid_hight[0],ss.grid_hight[1])]
+            isClashing = sfuc.CheckClashing( (temp_coord[0],temp_coord[1],ss.molecule_radius), (item[0],item[1],item[2]) )
 
+    molecules.append((temp_coord[0],temp_coord[1], ss.molecule_radius,RGB[m]))
+    print "created molecule no :%d , if this is taking long time, check grid size and molecule radius "%(m)
+
+print "all molecules successfully created"
+print "If you don't see plot check step size/grid size/molecular radius"
 for i in range(ss.number_of_itterations):
     random.shuffle(molecules)  #Randomize molecue order
     for element in range(len(molecules)):
-        all_other_molecules = [i for i in molecules if i != element ]
+        all_other_molecules = [i for i in molecules if i != molecules[element]]
         temp_store = molecules[element]  #Store old molecule
         coord_store = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
         for item in all_other_molecules:
             isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
             if isClashing == 1:
                 while isClashing == 1:
+                    #print "here"
                     coord_store = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
                     isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
 
