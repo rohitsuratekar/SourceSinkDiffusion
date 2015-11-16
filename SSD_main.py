@@ -22,9 +22,17 @@ for m in range(ss.number_of_substarte_molecules):
 for i in range(ss.number_of_itterations):
     random.shuffle(molecules)  #Randomize molecue order
     for element in range(len(molecules)):
+        all_other_molecules = [i for i in molecules if i != element ]
         temp_store = molecules[element]  #Store old molecule
-        temp_store2 = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
-        molecules[element] =[temp_store2[0], temp_store2[1], temp_store[2], temp_store[3]]  #add radius and color information
+        coord_store = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
+        for item in all_other_molecules:
+            isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
+            if isClashing == 1:
+                while isClashing == 1:
+                    coord_store = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
+                    isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
+
+        molecules[element] =[coord_store[0], coord_store[1], temp_store[2], temp_store[3]]  #add radius and color information
 
     for element in molecules:
         c = plt.Circle((element[0],element[1]),element[2], color = element[3] ) #create circle
