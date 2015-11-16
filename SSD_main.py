@@ -19,7 +19,7 @@ molecules =[] #make empty list
 for m in range(ss.number_of_substarte_molecules):
     molecules.append((random.uniform(ss.grid_width[0],ss.grid_width[1]), random.uniform(ss.grid_hight[0],ss.grid_hight[1]), ss.molecule_radius, RGB[m]))
 
-for i in range(50):
+for i in range(ss.number_of_itterations):
     random.shuffle(molecules)  #Randomize molecue order
     for element in range(len(molecules)):
         temp_store = molecules[element]  #Store old molecule
