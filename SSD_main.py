@@ -7,11 +7,12 @@ matplotlib.use('TkAgg') #For interactive plots
 import numpy as np
 import matplotlib.pyplot as plt
 
-starting_point1 = [0,0]
-starting_point2 = [0,0]
+starting_point1 = [25,25]
+starting_point2 = [25,25]
 plt.ion()
 graph = plt.plot(starting_point1[0],starting_point1[1])
-
+plt.ylim([0,100])
+plt.xlim([0,100])
 for i in range(100):
     starting_point1 = sfuc.GoRandom(starting_point1[0],starting_point1[1],10)
     starting_point2 = sfuc.GoRandom(starting_point2[0],starting_point2[1],10)
