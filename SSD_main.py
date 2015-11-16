@@ -10,8 +10,11 @@ import matplotlib.pyplot as plt
 
 #Generate distict colors
 number_of_colors = ss.number_of_substarte_molecules
-HSV = [(x*1.0/number_of_colors, 0.5, 0.5) for x in range(number_of_colors)]
-RGB = map(lambda x: colorsys.hsv_to_rgb(*x), HSV)
+if ss.all_different_color_molecules == 1:
+    HSV = [(x*1.0/number_of_colors, 0.5, 0.5) for x in range(number_of_colors)]
+    RGB = map(lambda x: colorsys.hsv_to_rgb(*x), HSV)
+if ss.all_different_color_molecules == 0:
+    RGB = [(1,0.6,0.6)]*number_of_colors
 
 molecules =[] #make empty list
 
@@ -52,5 +55,5 @@ for i in range(ss.number_of_itterations):
     plt.xlim([ss.grid_width[0],ss.grid_width[1]]) #set axis limit
     plt.ylim([ss.grid_hight[0],ss.grid_hight[1]]) #set axis limit
     plt.draw() #Draw
-    plt.pause(0.00001) #Pause for visualization
+    plt.pause(0.000001) #Pause for visualization
     plt.clf() #clear plot for next use
