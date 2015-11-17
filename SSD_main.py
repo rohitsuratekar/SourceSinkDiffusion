@@ -53,10 +53,15 @@ for i in range(ss.number_of_itterations):
         for item in all_other_molecules:
             isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
             if isClashing == 1:
+                allowed_repetation = 0
                 while isClashing == 1:
                     #print "here"
                     coord_store = sfuc.GoRandom(temp_store[0],temp_store[1], ss.step_size ) #Get new randomized location
                     isClashing = sfuc.CheckClashing([item[0],item[1],item[2]],[coord_store[0],coord_store[1],temp_store[2]])
+                    if allowed_repetation == ss.allowed_repetation:
+                        isClashing = 0
+                        coord_store = [temp_store[0],temp_store[1]]
+                    allowed_repetation = allowed_repetation+1
         enzymesite = 0
         for protein in enzymes:
             enzymesite = enzymesite + sfuc.CheckClashing([coord_store[0], coord_store[1], temp_store[2]],[protein[0],protein[1],protein[2]])
@@ -80,7 +85,7 @@ for i in range(ss.number_of_itterations):
     plt.ylim([ss.grid_hight[0],ss.grid_hight[1]]) #set axis limit
     plt.title("Number of substrate molecules = %d/%d"%(len(molecules),ss.number_of_substarte_molecules))
     plt.draw() #Draw
-    #plt.pause(0.000001) #Pause for visualization
+    plt.pause(0.000001) #Pause for visualization
     plt.clf() #clear plot for next use
 alltime_molecule_poistions=[]
 r = 0
@@ -92,5 +97,5 @@ if ss.get_heatmap == 1:
 alltime_molecule_poistions= np.asarray(alltime_molecule_poistions)
 all_x= alltime_molecule_poistions[:,1]
 all_y= alltime_molecule_poistions[:,2]
-plt.scatter(all_x,all_y)
+plt.scatter(all_x,all_y, alpha=0.2)
 plt.show()
