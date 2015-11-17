@@ -18,7 +18,7 @@ if ss.all_different_color_molecules == 0:
 
 molecules =[] #make empty list
 enzymes = []
-
+for_heat_map = []
 #Initializinf Enzyme sites
 for k in range(len(ss.Sink_Positions)):
     enzymes.append((ss.Sink_Positions[k][0],ss.Sink_Positions[k][1],ss.Sink_Size))
@@ -43,7 +43,7 @@ afterEnzymeReaction = list(molecules)
 for i in range(ss.number_of_itterations):
     molecules = []
     molecules = list(afterEnzymeReaction)
-    print len(molecules)
+    for_heat_map.append(molecules)
     random.shuffle(molecules)  #Randomize molecue order
     afterEnzymeReaction = []
     for element in range(len(molecules)):
@@ -78,6 +78,19 @@ for i in range(ss.number_of_itterations):
 
     plt.xlim([ss.grid_width[0],ss.grid_width[1]]) #set axis limit
     plt.ylim([ss.grid_hight[0],ss.grid_hight[1]]) #set axis limit
+    plt.title("Number of substrate molecules = %d/%d"%(len(molecules),ss.number_of_substarte_molecules))
     plt.draw() #Draw
-    plt.pause(0.000001) #Pause for visualization
+    #plt.pause(0.000001) #Pause for visualization
     plt.clf() #clear plot for next use
+alltime_molecule_poistions=[]
+r = 0
+if ss.get_heatmap == 1:
+    for k in range(len(for_heat_map)):
+        for m in range(len(for_heat_map[k])):
+            alltime_molecule_poistions.append([r,for_heat_map[k][m][0],for_heat_map[k][m][1]])
+            r = r+1
+alltime_molecule_poistions= np.asarray(alltime_molecule_poistions)
+all_x= alltime_molecule_poistions[:,1]
+all_y= alltime_molecule_poistions[:,2]
+plt.scatter(all_x,all_y)
+plt.show()
