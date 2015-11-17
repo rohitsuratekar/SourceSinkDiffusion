@@ -14,7 +14,7 @@ if ss.all_different_color_molecules == 1:
     HSV = [(x*1.0/number_of_colors, 0.5, 0.5) for x in range(number_of_colors)]
     RGB = map(lambda x: colorsys.hsv_to_rgb(*x), HSV)
 if ss.all_different_color_molecules == 0:
-    RGB = [(1,0.6,0.6)]*number_of_colors
+    RGB = [(0.69,0.4,1)]*number_of_colors
 
 molecules =[] #make empty list
 enzymes = []
@@ -33,12 +33,19 @@ for m in range(ss.number_of_substarte_molecules):
             isClashing = sfuc.CheckClashing( (temp_coord[0],temp_coord[1],ss.molecule_radius), (item[0],item[1],item[2]) )
 
     molecules.append((temp_coord[0],temp_coord[1], ss.molecule_radius,RGB[m]))
-    print "created molecule no :%d , if this is taking long time, check grid size and molecule radius "%(m)
 
 print "all molecules successfully created"
-print "If you don't see plot check step size/grid size/molecular radius"
+
+#Calculations
+
+afterEnzymeReaction = list(molecules)
+
 for i in range(ss.number_of_itterations):
+    molecules = []
+    molecules = list(afterEnzymeReaction)
+    print len(molecules)
     random.shuffle(molecules)  #Randomize molecue order
+    afterEnzymeReaction = []
     for element in range(len(molecules)):
         all_other_molecules = [i for i in molecules if i != molecules[element]]
         temp_store = molecules[element]  #Store old molecule
@@ -56,8 +63,9 @@ for i in range(ss.number_of_itterations):
 
         if enzymesite == 0:
             molecules[element] =[coord_store[0], coord_store[1], temp_store[2], temp_store[3]]  #add radius and color information
-    if enzymesite > 0:
-        molecules = all_other_molecules
+            afterEnzymeReaction.append(molecules[element])
+
+
 
 
 
